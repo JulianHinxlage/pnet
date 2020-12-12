@@ -4,7 +4,7 @@
 
 #include "Error.h"
 
-namespace socket {
+namespace sock {
 
     Error::Error(ErrorCode code, const char *message)
         : code(code), message(message) {}

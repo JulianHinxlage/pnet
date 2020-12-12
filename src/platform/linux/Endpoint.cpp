@@ -62,12 +62,12 @@ namespace sock {
 
     uint16_t Endpoint::getPort() const{
         struct sockaddr_in *addr = (struct sockaddr_in*)&impl->addr;
-        return addr->sin_port;
+        return htons(addr->sin_port);
     }
 
     void Endpoint::setPort(uint16_t port) {
         struct sockaddr_in *addr = (struct sockaddr_in*)&impl->addr;
-        addr->sin_port = port;
+        addr->sin_port = htons(port);
     }
 
     const char *Endpoint::getAddress() const{

@@ -16,4 +16,8 @@ project(udpTest)
 add_executable(${PROJECT_NAME} src/test/udpTest.cpp)
 target_link_libraries(${PROJECT_NAME} PUBLIC socket)
 
+project(serverTest)
+add_executable(${PROJECT_NAME} src/test/serverTest.cpp)
+target_link_libraries(${PROJECT_NAME} PUBLIC socket)
+
 project(socket)

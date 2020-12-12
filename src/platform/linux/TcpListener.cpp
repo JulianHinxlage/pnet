@@ -47,7 +47,7 @@ namespace sock {
         struct sockaddr_in6 addr;
         addr.sin6_family = AF_INET6;
         addr.sin6_addr = IN6ADDR_ANY_INIT;
-        addr.sin6_port = port;
+        addr.sin6_port = htons(port);
 
         if(::bind(impl->fd, (const sockaddr*)&addr, sizeof(addr)) < 0){
             impl->close();

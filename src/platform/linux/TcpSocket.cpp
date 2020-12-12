@@ -129,6 +129,7 @@ namespace sock {
             error = read(&buffer[offset], bytes, 0);
             if(error){
                 if(error != TIMEOUT){
+                    bytes += offset;
                     return error;
                 }
             }

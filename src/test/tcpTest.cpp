@@ -3,6 +3,7 @@
 //
 
 #include "socket/TcpListener.h"
+#include "socket/SocketHandler.h"
 #include <iostream>
 
 using namespace sock;
@@ -33,6 +34,7 @@ int main(int argc, char *argv[]){
 
     if(serverFlag){
         //server
+        SocketHandler handler;
         TcpListener listener;
         Error error;
         error = listener.listen(port);
@@ -41,35 +43,51 @@ int main(int argc, char *argv[]){
             return 0;
         }
 
-        while(listener.isListening()){
+        std::vector<TcpSocket> sockets;
+
+        handler.add(listener.getHandle(), [&](){
             TcpSocket socket;
             error = listener.accept(socket);
-            if(!error){
-
-                while(socket.isConnected()){
-                    int bytes = 0;
-                    std::vector<char> buffer;
-                    error = socket.readAll(buffer, bytes);
-                    if(error){
-                        std::cout << error.message << std::endl;
-                        break;
-                    }
-
-                    buffer[bytes] = '\0';
-                    std::string msg = buffer.data();
-
-                    if(msg == "shutdown"){
-                        socket.disconnect();
-                        listener.shutdown();
-                        break;
-                    }
-
-                    std::cout << msg << std::endl;
-                    socket.write(msg.data(), msg.size());
-                }
-            }else{
+            if(error){
                 std::cout << error.message << std::endl;
+                return;
             }
+            sockets.push_back(socket);
+            handler.add(socket.getHandle(), [&, socket]() mutable{
+               std::vector<char> buffer;
+               int bytes;
+               error = socket.readAll(buffer, bytes, 0);
+                buffer[bytes] = '\0';
+                std::string msg = buffer.data();
+
+                if(msg == "shutdown"){
+                    socket.disconnect();
+                    handler.stop();
+                }
+
+                if(error){
+                    if(error == DISCONNECT){
+                        handler.remove(socket.getHandle());
+                        for(int i = 0; i < sockets.size(); i++){
+                            if(sockets[i].getHandle() == socket.getHandle()){
+                                sockets.erase(sockets.begin() + i);
+                                i--;
+                            }
+                        }
+                    }
+                    std::cout << error.message << std::endl;
+                    return;
+                }
+
+                std::cout << msg << std::endl;
+                socket.write(msg.data(), msg.size());
+
+            });
+        });
+
+        error = handler.run();
+        if(error){
+            std::cout << error.message << std::endl;
         }
     }else{
         //client

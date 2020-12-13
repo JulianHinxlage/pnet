@@ -135,6 +135,44 @@ namespace sock {
             *this = *this ^ blob;
             return *this;
         }
+
+        Blob operator<<(int shift){
+            Blob result;
+            int byteShift = shift / 8;
+            int bitShift = shift % 8;
+            for(int i = 0; i < bytes; i++){
+                if(i - byteShift >= 0){
+                    if(bitShift == 0){
+                        result.data[i] = data[i - byteShift];
+                    }else{
+                        result.data[i] = (data[i - byteShift] << bitShift);
+                        if(i - byteShift - 1 >= 0){
+                            result.data[i] |= (data[i - byteShift - 1] >> (8 - bitShift));
+                        }
+                    }
+                }
+            }
+            return result;
+        }
+
+        Blob operator>>(int shift){
+            Blob result;
+            int byteShift = shift / 8;
+            int bitShift = shift % 8;
+            for(int i = 0; i < bytes; i++){
+                if(i + byteShift < bytes){
+                    if(bitShift == 0){
+                        result.data[i] = data[i + byteShift];
+                    }else{
+                        result.data[i] = (data[i + byteShift] >> bitShift);
+                        if(i + byteShift + 1 < bytes){
+                            result.data[i] |= (data[i + byteShift + 1] << (8 - bitShift));
+                        }
+                    }
+                }
+            }
+            return result;
+        }
     };
 
 }

@@ -7,6 +7,7 @@ file(GLOB_RECURSE SOURCE_SOCKET src/socket/*.cpp)
 project(socket)
 add_library(${PROJECT_NAME} STATIC ${SOURCE_SOCKET} ${SOURCE_PLATFORM})
 target_include_directories(${PROJECT_NAME} PUBLIC src)
+target_link_libraries(${PROJECT_NAME} PUBLIC pthread)
 
 project(tcpTest)
 add_executable(${PROJECT_NAME} src/test/tcpTest.cpp)
@@ -18,6 +19,10 @@ target_link_libraries(${PROJECT_NAME} PUBLIC socket)
 
 project(serverTest)
 add_executable(${PROJECT_NAME} src/test/serverTest.cpp)
+target_link_libraries(${PROJECT_NAME} PUBLIC socket)
+
+project(peerTest)
+add_executable(${PROJECT_NAME} src/test/peerTest.cpp)
 target_link_libraries(${PROJECT_NAME} PUBLIC socket)
 
 project(socket)

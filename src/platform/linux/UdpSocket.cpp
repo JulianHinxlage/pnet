@@ -50,7 +50,7 @@ namespace sock {
         impl = std::make_shared<Impl>();
     }
 
-    Error UdpSocket::listen(unsigned short port) {
+    Error UdpSocket::listen(uint16_t port) {
         Error error = impl->create();
         if(error){
             return error;
@@ -59,7 +59,7 @@ namespace sock {
         struct sockaddr_in6 addr;
         addr.sin6_family = AF_INET6;
         addr.sin6_addr = IN6ADDR_ANY_INIT;
-        addr.sin6_port = port;
+        addr.sin6_port = htons(port);
 
         if(::bind(impl->fd, (struct sockaddr*)&addr, sizeof(addr)) < 0){
             impl->close();
@@ -88,7 +88,7 @@ namespace sock {
         return Error();
     }
 
-    Error UdpSocket::read(void *ptr, int &bytes, Endpoint &source, int millisTimeout) {
+    Error UdpSocket::read(void *ptr, int &bytes, Endpoint &source, int millisTimeout, bool peek) {
         if(impl->fd == -1){
             Error error = impl->create();
             if(error){
@@ -109,7 +109,7 @@ namespace sock {
             return Error(ErrorCode::TIMEOUT, "timeout");
         }else{
             socklen_t size = sizeof(sockaddr_in6);
-            bytes = ::recvfrom(impl->fd, ptr, bytes, 0, (struct sockaddr*)source.getHandle(), &size);
+            bytes = ::recvfrom(impl->fd, ptr, bytes, peek ? MSG_PEEK : 0, (struct sockaddr*)source.getHandle(), &size);
             if(bytes == -1){
                 impl->close();
                 bytes = 0;
@@ -133,23 +133,35 @@ namespace sock {
             return error;
         }
 
-        int offset = 0;
-        while(bytes == buffer.size() - offset){
+        while(bytes == buffer.size()){
             buffer.resize(buffer.size() * 1.5);
-            offset += bytes;
-            bytes = buffer.size() - offset;
+            int readBytes = buffer.size() - bytes;
             Endpoint source2;
-            error = read(&buffer[offset], bytes, source2, 0);
-            if(source != source2){
-                //may need to use ::connect
-            }
+            error = read(&buffer[bytes], readBytes, source2, 0, true);
+
             if(error){
-                if(error != TIMEOUT){
+                if(error == TIMEOUT){
+                    break;
+                }else{
+                    return error;
+                }
+            }
+
+            if(source != source2){
+                break;
+            }else{
+                error = read(&buffer[bytes], readBytes, source2, 0);
+            }
+
+            bytes += readBytes;
+            if(error){
+                if(error == TIMEOUT){
+                    break;
+                }else{
                     return error;
                 }
             }
         }
-        bytes += offset;
         return Error();
     }
 

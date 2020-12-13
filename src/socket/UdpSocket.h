@@ -15,10 +15,10 @@ namespace sock {
     class UdpSocket {
     public:
         UdpSocket();
-        Error listen(unsigned short port);
+        Error listen(uint16_t port);
         void shutdown();
         Error write(const void *ptr, int bytes, const Endpoint &destination);
-        Error read(void *ptr, int &bytes, Endpoint &source, int millisTimeout = -1);
+        Error read(void *ptr, int &bytes, Endpoint &source, int millisTimeout = -1, bool peek = false);
         Error readAll(std::vector<char> &buffer, int &bytes, Endpoint &source, int millisTimeout = -1);
         int &getHandle();
     private:

@@ -29,24 +29,48 @@ void printInfo(){
 }
 
 int main(int argc, char *argv[]){
+    std::string ip = "::1";
     int port = 2000;
+
+    std::string entryId = "::1";
+    int entryPort = 2000;
+
     int logLevel = 2;
 
     //parse arguments
     for(int i = 1; i < argc; i++){
         std::string arg = argv[i];
         if(arg == "-v"){
-            i++;
             try{
-                if(argc >= i){
-                    logLevel = std::stoi(argv[i]);
+                if(argc >= i+1){
+                    logLevel = std::stoi(argv[i+1]);
                 }
             } catch (...) {}
+            i += 1;
+            continue;
+        }else if(arg == "-e"){
+            if(argc >= i+1){
+                entryId = argv[i+1];
+            }
+            try{
+                if(argc >= i+2){
+                    entryPort = std::stoi(argv[i+2]);
+                }
+            } catch (...) {}
+            i += 2;
+            continue;
+        }else if(arg == "-l"){
+            if(argc >= i+1){
+                ip = argv[i+1];
+            }
+            try{
+                if(argc >= i+2){
+                    port = std::stoi(argv[i+2]);
+                }
+            } catch (...) {}
+            i += 2;
             continue;
         }
-        try{
-            port = std::stoi(argv[i]);
-        } catch (...) {}
     }
 
     //set logging callback
@@ -59,7 +83,7 @@ int main(int argc, char *argv[]){
     //listen on first free port
     Error error;
     for(int i = 0; i < 1024; i++){
-        error = net.start(port, "127.0.0.1");
+        error = net.start(port, ip.c_str());
         if(!error){
             break;
         }
@@ -71,7 +95,7 @@ int main(int argc, char *argv[]){
 
     //add entry nodes
     for(int i = 0; i < 10; i++){
-        net.addEntryNode(Endpoint("127.0.0.1", 2000 + i));
+        net.addEntryNode(Endpoint(entryId.c_str(), entryPort + i));
     }
 
     net.msgCallback = [&](PeerId id, const std::string &msg){

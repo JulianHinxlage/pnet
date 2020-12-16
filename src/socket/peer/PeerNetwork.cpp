@@ -5,7 +5,7 @@
 #include "PeerNetwork.h"
 #include "socket/util.h"
 #include <random>
-#include <sstream>
+#include <unordered_map>
 
 namespace sock {
 
@@ -121,7 +121,7 @@ namespace sock {
             int packetStart = packet.offset;
             Opcode opcode = packet.get<Opcode>();
 
-            log(str("[", opcodeName(opcode), "] ", hex(source, true)), true);
+            log(str("[", opcodeName(opcode), "] ", hex(source, true), " ", hop.ep.getAddress(), " ", hop.ep.getPort()), true);
 
             switch (opcode) {
                 case NONE:
@@ -222,7 +222,9 @@ namespace sock {
                         broadcastIds[broadcastId] = true;
                         for(auto &peer : routingTable.peers){
                             if(peer.ep != hop.ep && peer.id != localId()){
-                                socket.write(&packet.buffer[packetStart], packet.offset - packetStart, peer.ep);
+                                if((broadcastSource ^ peer.id) > (broadcastSource ^ localId())){
+                                    socket.write(&packet.buffer[packetStart], packet.offset - packetStart, peer.ep);
+                                }
                             }
                         }
                         if(msgCallback){

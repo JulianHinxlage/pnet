@@ -192,7 +192,7 @@ namespace sock {
                     Endpoint ep(address.c_str(), port, true);
                     if(!routingTable.has(id)) {
                         log(str("connect: ", hex(id, false)), false);
-                        routingTable.add(id, hop.ep);
+                        routingTable.add(id, ep);
 
                         Packet response;
                         response.add(HANDSHAKE);

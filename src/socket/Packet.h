@@ -23,6 +23,8 @@ namespace sock {
         int size();
         std::string getStr();
         void addStr(const std::string &str);
+        void add(char *ptr, int bytes);
+        void skip(int bytes);
 
         template<typename T>
         T get(){

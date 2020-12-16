@@ -59,4 +59,20 @@ namespace sock {
         }
     }
 
+    void Packet::add(char *ptr, int bytes) {
+        for(int i = 0; i < bytes; i++){
+            if(buffer.size() > this->bytes){
+                buffer[this->bytes++] = ptr[i];
+            }else{
+                buffer.push_back(ptr[i]);
+                this->bytes++;
+            }
+        }
+    }
+
+    void Packet::skip(int bytes) {
+        offset += bytes;
+    }
+
+
 }

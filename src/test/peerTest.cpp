@@ -42,29 +42,29 @@ int main(int argc, char *argv[]){
         std::string arg = argv[i];
         if(arg == "-v"){
             try{
-                if(argc >= i+1){
+                if(argc > i+1){
                     logLevel = std::stoi(argv[i+1]);
                 }
             } catch (...) {}
             i += 1;
             continue;
         }else if(arg == "-e"){
-            if(argc >= i+1){
+            if(argc > i+1){
                 entryId = argv[i+1];
             }
             try{
-                if(argc >= i+2){
+                if(argc > i+2){
                     entryPort = std::stoi(argv[i+2]);
                 }
             } catch (...) {}
             i += 2;
             continue;
         }else if(arg == "-l"){
-            if(argc >= i+1){
+            if(argc > i+1){
                 ip = argv[i+1];
             }
             try{
-                if(argc >= i+2){
+                if(argc > i+2){
                     port = std::stoi(argv[i+2]);
                 }
             } catch (...) {}

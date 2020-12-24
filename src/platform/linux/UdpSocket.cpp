@@ -9,6 +9,7 @@
 #include <cerrno>
 #include <cstring>
 #include <poll.h>
+#include <iostream>
 
 namespace pnet {
 
@@ -109,7 +110,7 @@ namespace pnet {
             return Error(ErrorCode::TIMEOUT, "timeout");
         }else{
             socklen_t size = sizeof(sockaddr_in6);
-            bytes = ::recvfrom(impl->fd, ptr, bytes, peek ? MSG_PEEK : 0, (struct sockaddr*)source.getHandle(), &size);
+            bytes = ::recvfrom(impl->fd, ptr, bytes, peek ? (MSG_TRUNC | MSG_PEEK) : 0, (struct sockaddr*)source.getHandle(), &size);
             if(bytes == -1){
                 impl->close();
                 bytes = 0;
@@ -123,44 +124,24 @@ namespace pnet {
     }
 
     Error UdpSocket::readAll(std::vector<char> &buffer, int &bytes, Endpoint &source, int millisTimeout) {
-        if(buffer.size() < 8){
-            buffer.resize(8);
-        }
-
-        bytes = buffer.size();
-        Error error = read(buffer.data(), bytes, source, millisTimeout);
+        bytes = 0;
+        Error error = read(buffer.data(), bytes, source, millisTimeout, true);
         if(error){
             return error;
         }
 
-        while(bytes == buffer.size()){
-            buffer.resize(buffer.size() * 1.5);
-            int readBytes = buffer.size() - bytes;
-            Endpoint source2;
-            error = read(&buffer[bytes], readBytes, source2, 0, true);
+        Endpoint source2;
+        if(bytes > buffer.size()){
+            buffer.resize(bytes);
+        }
+        bytes = buffer.size();
+        error = read(buffer.data(), bytes, source2, 0);
 
-            if(error){
-                if(error == TIMEOUT){
-                    break;
-                }else{
-                    return error;
-                }
-            }
-
-            if(source != source2){
-                break;
-            }else{
-                error = read(&buffer[bytes], readBytes, source2, 0);
-            }
-
-            bytes += readBytes;
-            if(error){
-                if(error == TIMEOUT){
-                    break;
-                }else{
-                    return error;
-                }
-            }
+        if(error){
+            return error;
+        }
+        if(source != source2){
+            return Error("source endpoint mismatch");
         }
         return Error();
     }

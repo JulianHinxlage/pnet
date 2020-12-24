@@ -1,2 +1,2 @@
-# Socket
-A library for networking in C++
+# pnet
+A library for peer networking in C++

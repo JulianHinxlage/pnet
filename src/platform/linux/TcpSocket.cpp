@@ -2,7 +2,7 @@
 // Copyright (c) 2020 Julian Hinxlage. All rights reserved.
 //
 
-#include "socket/TcpSocket.h"
+#include "pnet/TcpSocket.h"
 #include <sys/socket.h>
 #include <cerrno>
 #include <cstring>
@@ -10,7 +10,7 @@
 #include <netinet/in.h>
 #include <unistd.h>
 
-namespace sock {
+namespace pnet {
 
     class TcpSocket::Impl{
     public:

@@ -9,7 +9,7 @@
 #include <thread>
 #include <functional>
 
-namespace sock {
+namespace pnet {
 
     class Terminal{
     public:

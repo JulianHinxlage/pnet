@@ -10,7 +10,7 @@
 #include <vector>
 #include <memory>
 
-namespace sock {
+namespace pnet {
 
     class TcpSocket {
     public:

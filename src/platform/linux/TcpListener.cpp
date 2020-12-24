@@ -2,13 +2,13 @@
 // Copyright (c) 2020 Julian Hinxlage. All rights reserved.
 //
 
-#include "socket/TcpListener.h"
+#include "pnet/TcpListener.h"
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <unistd.h>
 #include <cstring>
 
-namespace sock {
+namespace pnet {
 
     class TcpListener::Impl{
     public:

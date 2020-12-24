@@ -3,11 +3,11 @@
 //
 
 #include "PeerNetwork.h"
-#include "socket/util.h"
+#include "pnet/util.h"
 #include <random>
 #include <unordered_map>
 
-namespace sock {
+namespace pnet {
 
     template<int bytes>
     Blob<bytes> randomId(){

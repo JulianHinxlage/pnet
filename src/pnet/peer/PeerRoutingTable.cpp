@@ -4,7 +4,7 @@
 
 #include "PeerRoutingTable.h"
 
-namespace sock {
+namespace pnet {
 
     std::string hex(PeerId id, bool shortVersion) {
         std::string str;

@@ -7,7 +7,7 @@
 
 #include <memory>
 
-namespace sock {
+namespace pnet {
 
     class Endpoint {
     public:

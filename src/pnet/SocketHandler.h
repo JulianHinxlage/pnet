@@ -10,7 +10,7 @@
 #include <memory>
 #include <functional>
 
-namespace sock {
+namespace pnet {
 
     class SocketHandler {
     public:

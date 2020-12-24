@@ -2,11 +2,11 @@
 // Copyright (c) 2020 Julian Hinxlage. All rights reserved.
 //
 
-#include "socket/TcpListener.h"
-#include "socket/SocketHandler.h"
+#include "pnet/TcpListener.h"
+#include "pnet/SocketHandler.h"
 #include <iostream>
 
-using namespace sock;
+using namespace pnet;
 
 int main(int argc, char *argv[]){
 

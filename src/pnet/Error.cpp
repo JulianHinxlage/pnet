@@ -4,7 +4,7 @@
 
 #include "Error.h"
 
-namespace sock {
+namespace pnet {
 
     Error::Error(ErrorCode code, const char *message)
         : code(code), message(message) {}

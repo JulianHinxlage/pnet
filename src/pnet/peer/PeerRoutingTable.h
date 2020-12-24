@@ -5,11 +5,11 @@
 #ifndef SOCKET_PEERROUTINGTABLE_H
 #define SOCKET_PEERROUTINGTABLE_H
 
-#include "socket/Blob.h"
-#include "socket/Endpoint.h"
+#include "pnet/Blob.h"
+#include "pnet/Endpoint.h"
 #include <vector>
 
-namespace sock {
+namespace pnet {
 
     typedef Blob<16> PeerId;
 

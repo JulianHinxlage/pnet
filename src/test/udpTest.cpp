@@ -2,10 +2,10 @@
 // Copyright (c) 2020 Julian Hinxlage. All rights reserved.
 //
 
-#include "socket/UdpSocket.h"
+#include "pnet/UdpSocket.h"
 #include <iostream>
 
-using namespace sock;
+using namespace pnet;
 
 int main(int argc, char *argv[]){
 

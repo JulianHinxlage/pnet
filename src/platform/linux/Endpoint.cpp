@@ -2,13 +2,13 @@
 // Copyright (c) 2020 Julian Hinxlage. All rights reserved.
 //
 
-#include "socket/Endpoint.h"
+#include "pnet/Endpoint.h"
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <netdb.h>
 #include <cstring>
 
-namespace sock {
+namespace pnet {
 
     class Endpoint::Impl{
     public:

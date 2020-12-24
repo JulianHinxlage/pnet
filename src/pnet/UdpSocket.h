@@ -10,7 +10,7 @@
 #include <memory>
 #include <vector>
 
-namespace sock {
+namespace pnet {
 
     class UdpSocket {
     public:

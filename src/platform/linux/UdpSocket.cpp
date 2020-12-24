@@ -2,7 +2,7 @@
 // Copyright (c) 2020 Julian Hinxlage. All rights reserved.
 //
 
-#include "socket/UdpSocket.h"
+#include "pnet/UdpSocket.h"
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <unistd.h>
@@ -10,7 +10,7 @@
 #include <cstring>
 #include <poll.h>
 
-namespace sock {
+namespace pnet {
 
     class UdpSocket::Impl{
     public:

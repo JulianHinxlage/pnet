@@ -5,7 +5,7 @@
 #ifndef SOCKET_BLOB_H
 #define SOCKET_BLOB_H
 
-namespace sock {
+namespace pnet {
 
     //blob of memory with logic and bitwise operators
     template<int bytes>

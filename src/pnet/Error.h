@@ -5,7 +5,7 @@
 #ifndef SOCKET_ERROR_H
 #define SOCKET_ERROR_H
 
-namespace sock {
+namespace pnet {
 
     enum ErrorCode{
         OK,

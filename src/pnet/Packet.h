@@ -8,7 +8,7 @@
 #include <vector>
 #include <string>
 
-namespace sock {
+namespace pnet {
 
     class Packet {
     public:

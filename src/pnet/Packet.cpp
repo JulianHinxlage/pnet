@@ -4,7 +4,7 @@
 
 #include "Packet.h"
 
-namespace sock {
+namespace pnet {
 
     Packet::Packet() {
         bytes = 0;

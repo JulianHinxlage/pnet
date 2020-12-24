@@ -6,13 +6,13 @@
 #define SOCKET_PEERNETWORK_H
 
 #include "PeerRoutingTable.h"
-#include "socket/UdpSocket.h"
-#include "socket/SocketHandler.h"
-#include "socket/Packet.h"
+#include "pnet/UdpSocket.h"
+#include "pnet/SocketHandler.h"
+#include "pnet/Packet.h"
 #include <thread>
 #include <map>
 
-namespace sock {
+namespace pnet {
 
     class PeerNetwork {
     public:

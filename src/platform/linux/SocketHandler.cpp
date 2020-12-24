@@ -2,12 +2,12 @@
 // Copyright (c) 2020 Julian Hinxlage. All rights reserved.
 //
 
-#include "socket/SocketHandler.h"
+#include "pnet/SocketHandler.h"
 #include <cerrno>
 #include <cstring>
 #include <poll.h>
 
-namespace sock {
+namespace pnet {
 
     class SocketHandler::Impl{
     public:

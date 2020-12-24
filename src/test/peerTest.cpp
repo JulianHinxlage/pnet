@@ -2,13 +2,13 @@
 // Copyright (c) 2020 Julian Hinxlage. All rights reserved.
 //
 
-#include "socket/peer/PeerNetwork.h"
-#include "socket/Terminal.h"
-#include "socket/util.h"
+#include "pnet/peer/PeerNetwork.h"
+#include "pnet/Terminal.h"
+#include "pnet/util.h"
 #include <iostream>
 #include <csignal>
 
-using namespace sock;
+using namespace pnet;
 
 Terminal terminal;
 PeerNetwork net;

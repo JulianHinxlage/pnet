@@ -2,12 +2,12 @@
 // Copyright (c) 2020 Julian Hinxlage. All rights reserved.
 //
 
-#include "socket/Terminal.h"
+#include "pnet/Terminal.h"
 
 #include <termios.h>
 #include <unistd.h>
 
-namespace sock {
+namespace pnet {
 
     static termios t_old;
 
